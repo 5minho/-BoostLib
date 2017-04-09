@@ -1,0 +1,148 @@
+//
+// Created by 오민호 on 2017. 4. 9..
+//
+
+#ifndef BOOSTPROJ_PROTOCOL_DECL_H
+#define BOOSTPROJ_PROTOCOL_DECL_H
+
+
+//프로토콜 구성
+//Length(2Byte) Version(1Byte) DataFlag(1Byte) Reserved(4Byte) Data(N Data)
+
+
+using Flag = const char;
+using DByte = const short;
+
+//Packet header 에 대한 상수 정의
+namespace protocol {
+    const char VERSION = 0x01;
+    DByte MAX_LENGTH = 1450;
+
+    //flag 상수명에 대한 규칙
+    //REQ : Client -> Server
+    //RES : Server -> Client
+
+    //로그인 관련 flag
+    namespace LOGIN {
+        Flag REQ = 0x00; // 로그인 요청
+        Flag RES = 0x00; // 로그인 결과
+
+        namespace RES_FLAG {
+            Flag OK = 0x00; // 성공
+            Flag NO_ID = 0x01; // ID 없음
+            Flag WRONG_PW = 0x02; // PW 틀림
+            Flag ETC_ERR = 0x03; // 기타 에러
+        }
+    }
+
+    //유저 위치 정보 관련 flag
+    namespace USER_POS {
+        Flag REQ = 0x01; // 유저 정보에 대한 요청
+        Flag RES = 0x01; // 결과
+
+        namespace RES_FLAG {
+            Flag IN_LOBBY = 0x00; // 로비에 있음
+            Flag IN_ROOM = 0x01; // 채팅방에 있음
+        }
+    }
+
+    //대기실에 있는 유저 정보 flag
+    namespace LOBBY {
+        namespace USER {
+            namespace REQ {
+                Flag LIST = 0x02; // 대기실에 있는 사용자 목록 요청
+            }
+            namespace RES {
+                Flag LIST = 0x02; // 결과
+            }
+        }
+    }
+
+    //채팅방 관련 flag
+    namespace CHATROOMS {
+
+        namespace REQ {
+            Flag LIST = 0x03; // 채팅방 리스트 요청
+            Flag CREATE = 0x04; // 채팅방 설립
+            Flag JOIN = 0x05; // 채팅방 입장 요청
+            Flag EXIT = 0x06; // 채팅방 나가기
+            Flag CHAT = 0x07; // 채팅방에서 대화
+            Flag USER_LIST = 0x08; // 채팅방에 있는 유저 리스트 요청
+            Flag INVITE = 0x09; // 채팅방 초대
+        }
+
+        namespace RES {
+            Flag LIST = 0x03; // 리스트 결과
+            Flag CREATE = 0x04;
+            Flag JOIN = 0x05; // 결과
+            Flag EXIT = 0x06; //결과
+            Flag CHAT = 0x07; // 채팅 데이터
+            Flag USER_LIST = 0x08; // 리스트 결과
+            Flag INVITE = 0x09; // 초대 결과
+
+            namespace CREATE_RES {
+                Flag OK = 0x00; // 설립 성공 -> 자동 입장 -> 위치 정보 전송
+                Flag FAIL = 0x01; // 실패
+            }
+            namespace JOIN_RES {
+                Flag OK = 0x00; // 입장 성공 -> 위치 정보 전송
+                Flag FAIL = 0x01; // 입장 실패
+            }
+            namespace EXIT_RES {
+                Flag OK = 0x00; // 나가기 성공
+                Flag FAIL = 0x01; // 나가기 실패
+            }
+            namespace INVITE_RES {
+                Flag OK = 0x00;
+                Flag FAIL = 0x01;
+            }
+        }
+    }
+
+    //접속 종료 관련
+    namespace QUIT {
+        Flag REQ = 0x0A; // 접속 종료
+        Flag RES = 0x0A;
+    }
+
+    //특정 사용자
+    namespace USER {
+        namespace REQ {
+            Flag FIND = 0x0B; // 특정 사용자 찾기
+            Flag MSG = 0x0C; // 특정 사용자에게 메시지 보내기
+        }
+        namespace RES {
+            Flag FIND = 0x0B;
+            Flag MSG = 0x0C;
+        }
+    }
+
+    enum {
+        RESERVE = 0x00000000
+    };
+};
+
+//유저 정보와 관련된 상수
+namespace user {
+    enum {
+        MAX_ID_LEN = 30,
+        MAX_PW_LEN = 10,
+        MAX_COUNT = 1000
+    };
+};
+
+//채팅방과 관련된 상수
+namespace chatroom {
+    enum {
+        MAX_NAME_LEN = 50 ,
+        MAX_COUNT = 10,
+        MAX_USER_IN_ROOM = 10
+    };
+};
+
+namespace chatting {
+    enum {
+        MAX_CHAT_LEN = 512
+    };
+}
+#endif //BOOSTPROJ_PROTOCOL_DECL_H
