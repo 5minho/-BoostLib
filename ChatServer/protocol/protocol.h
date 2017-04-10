@@ -40,10 +40,10 @@ namespace packet {
                 header.reserved = protocol::RESERVE;
             }
         };
-        struct Lobby_users {
+        struct LobbyUsers {
             Header header;
             void init() {
-                header.len = sizeof(Lobby_users);
+                header.len = sizeof(LobbyUsers);
                 header.version = protocol::VERSION;
                 header.flag = protocol::LOBBY::USER::REQ::LIST;
                 header.reserved = protocol::RESERVE;
@@ -124,8 +124,35 @@ namespace packet {
                     header.reserved = protocol::RESERVE;
                 }
             };
-
         }
+        struct Quit{
+            Header header;
+            void init() {
+                header.len = sizeof(Quit);
+                header.version = protocol::VERSION;
+                header.flag = protocol::QUIT::REQ;
+                header.reserved = protocol::RESERVE;
+            }
+        };
+        struct UserFind {
+            Header header;
+            void init() {
+                header.len = sizeof(UserFind);
+                header.version = protocol::VERSION;
+                header.flag = protocol::USER::REQ::FIND;
+                header.reserved = protocol::RESERVE;
+            }
+        };
+
+        struct UserMsg {
+            Header header;
+            void init() {
+                header.len = sizeof(UserMsg);
+                header.version = protocol::VERSION;
+                header.flag = protocol::USER::REQ::MSG;
+                header.reserved = protocol::RESERVE;
+            }
+        };
     }
 
     //응답 데이터 구조체 정의
@@ -247,6 +274,34 @@ namespace packet {
                 }
             };
         }
+        struct Quit{
+            Header header;
+            void init() {
+                header.len = sizeof(Quit);
+                header.version = protocol::VERSION;
+                header.flag = protocol::QUIT::RES;
+                header.reserved = protocol::RESERVE;
+            }
+        };
+        struct UserFind {
+            Header header;
+            void init() {
+                header.len = sizeof(UserFind);
+                header.version = protocol::VERSION;
+                header.flag = protocol::USER::RES::FIND;
+                header.reserved = protocol::RESERVE;
+            }
+        };
+
+        struct UserMsg {
+            Header header;
+            void init() {
+                header.len = sizeof(UserMsg);
+                header.version = protocol::VERSION;
+                header.flag = protocol::USER::RES::MSG;
+                header.reserved = protocol::RESERVE;
+            }
+        };
     }
 }
 
