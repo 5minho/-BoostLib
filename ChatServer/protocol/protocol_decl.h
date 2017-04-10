@@ -140,6 +140,7 @@ namespace chatroom {
     };
 };
 
+//채팅과 관련된 상수
 namespace chatting {
     enum {
         MAX_CHAT_LEN = 512

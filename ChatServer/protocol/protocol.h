@@ -131,7 +131,6 @@ namespace packet {
     //응답 데이터 구조체 정의
     namespace RES {
         struct Login  {
-
             Header header;
             char res;
 
