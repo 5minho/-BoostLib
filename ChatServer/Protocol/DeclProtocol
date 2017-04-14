@@ -16,7 +16,7 @@ using DByte = const short;
 //Packet header 에 대한 상수 정의
 namespace protocol {
     const char VERSION = 0x01;
-    DByte MAX_LENGTH = 1450;
+    DByte MAX_PACKET_LENGTH = 1450;
 
     //flag 상수명에 대한 규칙
     //REQ : Client -> Server
